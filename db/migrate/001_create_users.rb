@@ -12,6 +12,12 @@ class CreateUsers < ActiveRecord::Migration
       
       
     end
+    user = User.new
+    user.login = "admin"
+    user.email = "simeon@simb.net"
+    user.password = "admin"
+    user.password_confirmation = "admin"
+    user.save(false)
   end
 
   def self.down
