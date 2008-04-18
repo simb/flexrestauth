@@ -66,6 +66,7 @@ module AuthenticatedSystem
           store_location
           redirect_to new_session_path
         end
+        format.xml { render :xml => {:error => "no access"}}
         format.any do
           request_http_basic_authentication 'Web Password'
         end
