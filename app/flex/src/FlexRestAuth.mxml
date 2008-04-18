@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+	<mx:Script>
+		<![CDATA[
+			
+		]]>
+	</mx:Script>
 
+	<mx:HTTPService id="list" url="http://0.0.0.0:3000/users.xml" />
 
 	<mx:Button label="List Users" />
 	<mx:Button label="Login" />
