@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
+  before_filter :login_required, :only => [:index ]
   
-  
+  def index
+    @users = User.find(:all)
+    respond_to do |format|
+      format.html
+      format.xml { render :xml => @users.to_xml(dasherize=>false)}
+    end
+  end
 
   # render new.rhtml
   def new
