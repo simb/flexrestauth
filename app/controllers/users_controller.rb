@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @users = User.find(:all)
     respond_to do |format|
       format.html
-      format.xml { render :xml => @users.to_xml(dasherize=>false)}
+      format.xml { render :xml => @users.to_xml(:dasherize => false)}
     end
   end
 
