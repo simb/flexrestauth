@@ -3,6 +3,12 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
+  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.login '/login', :controller => 'sessions', :action => 'new'
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  map.activate '/activate/:id', :controller => 'users', :action => 'activate'
+  map.forgot_password '/forgot_password', :controller => 'users', :action => 'forgot_password'
+  map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -36,4 +42,5 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
+  map.connect ':controller/:action.:format'
 end
