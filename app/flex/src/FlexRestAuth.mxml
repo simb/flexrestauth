@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.Base64Encoder;
+		
+			private var hs:HTTPService = new HTTPService();
 			
+			private function init():void
+			{
+				var enc:Base64Encoder = new mx.utils.Base64Encoder();
+				enc.encode( "admin:admin")
+				var login64 : String = enc.toString();
+				
+				hs.url = "http://0.0.0.0:3001/users/index.xml";
+				hs.contentType = "application/xml";
+				hs.resultFormat = "text";
+				hs.request = <request></request>;
+				hs.addEventListener(ResultEvent.RESULT, onResult);
+				hs.addEventListener(FaultEvent.FAULT, onFault);
+				hs.method = URLRequestMethod.POST;
+				hs.headers = {Authorization:  "Basic " + login64};		
+			}
+			
+			private function onResult(event:ResultEvent):void
+			{
+				//Alert.show("result");
+				log.text = event.result as String;
+			}
+			private function onFault(event:FaultEvent):void
+			{
+				//Alert.show("fail");
+				log.text = event.fault.message;
+			}
 		]]>
 	</mx:Script>
 	
-
 	<mx:HTTPService id="list" url="http://0.0.0.0:3001/users.xml" resultFormat="text" result="log.text = event.result as String" />
 	<mx:HTTPService id="login" url="http://0.0.0.0:3001/sessions/create.xml" resultFormat="text" result="log.text = event.result as String">
 		<mx:request xmlns="">
@@ -16,11 +46,12 @@
 	</mx:HTTPService>
 	<mx:HTTPService id="logout" url="http://0.0.0.0:3001/logout" resultFormat="text" result="log.text = event.result as String" />
 	
-	
-	<mx:Button label="List Users" click="list.send()" />
-	<mx:Button label="Login" click="login.send()" />
-	<mx:Button label="Logout" click="logout.send()" />
-	
+	<mx:HBox>
+		<mx:Button label="List Users" click="list.send()" />
+		<mx:Button label="Login" click="login.send()" />
+		<mx:Button label="Logout" click="logout.send()" />
+		<mx:Button label="List w/Headers" click="hs.send()" />
+	</mx:HBox>
 	<mx:TextArea id="log" width="600" height="500" />
 		
 </mx:Application>
